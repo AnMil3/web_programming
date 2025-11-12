@@ -33,19 +33,12 @@
 <main>
     <form action="/bookReservation" method="POST">
         <h2>Choose a book:</h2>
-        <!-- Display radio buttons for each book,
-             the value should be the book title
-             and the displayed text should be:
-             Title: <book_title>, Genre: <book_genre>, Rating: <average_rating> -->
-        <div th:each="book: ${books}">
-            <input
-                    type="radio"
-                    name="books"
-                    th:value="${book.getTitle()}"
-            >
-            <div>
-                <th:block th:text="'Title: ' + ${book.getTitle()} + ', Genre: ' + ${book.getGenre()} + ', Rating: ' + ${book.getAverageRating()}"></th:block>
-            </div>
+
+        <div th:each="book : ${books}" class="book-option">
+            <label>
+                <input type="radio" name="books" th:value="${book.title}" required/>
+                <span th:text="'Title: ' + ${book.title} + ', Genre: ' + ${book.genre} + ', Rating: ' + ${book.averageRating} + ', Author: ' + ${book.author.name} + ' ' + ${book.author.surname}"></span>
+            </label>
         </div>
 
         <h2>Enter your information:</h2>
@@ -55,20 +48,39 @@
         <input type="text" name="readerAddress" required><br/>
 
         <h2>Choose number of copies:</h2>
-        <input type="number" name="numCopies" min="1" max="10" required><br/>
-        <br/>
+        <input type="number" name="numCopies" min="1" max="10" required><br/><br/>
+
         <input type="submit" value="Reserve Book">
     </form>
 
-    <form action="" method="POST">
-        <input type="text" name="keyword" required>
-        <input type="text" name="rating" required>
+    <hr/>
+
+    <h2>Manage books</h2>
+    <div th:each="book : ${books}" class="book-option">
+        <div>
+            <span th:text="${book.title}">Title</span> —
+            <span th:text="${book.genre}">Genre</span> —
+            <span th:text="${book.averageRating}">Rating</span> —
+            <span th:text="${book.author.name + ' ' + book.author.surname}">Author</span>
+        </div>
+
+        <a th:href="@{/books/book-form/{id}(id=${book.id})}">
+            <button type="button">Edit</button>
+        </a>
+
+        <form th:action="@{/books/delete/{id}(id=${book.id})}" method="post" style="display:inline;">
+            <button type="submit" onclick="return confirm('Delete this book?');">Delete</button>
+        </form>
+    </div>
+
+    <a th:href="@{/books/book-form}">Add new book</a>
+
+    <form th:action="@{/books}" method="get">
+        <input type="text" name="keyword">
+        <input type="text" name="rating">
         <input type="submit" value="Search">
     </form>
 
-    <div th:each="book: ${filteredBooks}">
-        <th:block th:text="${book.title}"></th:block>
-    </div>
 </main>
 </body>
 </html>
