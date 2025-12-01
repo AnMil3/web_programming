@@ -51,7 +51,6 @@ public class BookController {
 
     @GetMapping("/book-form")
     public String getAddBookPage(Model model) {
-//        model.addAttribute("book", new Book()); // empty book used by form
         model.addAttribute("authors", authorService.findAll());
         return "bookForm";
     }
@@ -83,6 +82,12 @@ public class BookController {
     public String deleteBook(@PathVariable Long id) {
         bookService.deleteById(id);
         return "redirect:/books";
+    }
+
+    @GetMapping("/author/{id}")
+    public String getBooksByAuthor(@PathVariable Long id, Model model) {
+        model.addAttribute("books", bookService.findAllByAuthor_Id(id));
+        return "listBooks";
     }
 
 }

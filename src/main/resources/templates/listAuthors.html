@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Manage Authors</title>
+    <style type="text/css">
+        body { width: 800px; margin: auto; font-family: Arial, sans-serif; }
+        h1 { color: #333; }
+        .author-option { margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        .author-option:hover { background-color: #f5f5f5; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Authors</h1>
+</header>
+<main>
+    <div th:each="author : ${authors}" class="author-option">
+        <div>
+            <span th:text="${author.name + ' ' + author.surname}"></span> —
+            <span th:text="${author.country}"></span>
+        </div>
+        <small th:text="${author.biography}"></small><br/>
+        <a th:href="@{/authors/author-form/{id}(id=${author.id})}">
+            <button type="button">Edit</button>
+        </a>
+        <form th:action="@{/authors/delete/{id}(id=${author.id})}" method="post" style="display:inline;">
+            <button type="submit" onclick="return confirm('Delete this author?');">Delete</button>
+        </form>
+        <a th:href="@{/books/author/{id}(id=${author.id})}">
+            <button type="button">Show books</button>
+        </a>
+    </div>
+
+    <a th:href="@{/authors/author-form}">Add new author</a><br/>
+    <a th:href="@{/books}">Back to books</a>
+</main>
+</body>
+</html>

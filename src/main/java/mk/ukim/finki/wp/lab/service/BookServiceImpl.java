@@ -27,7 +27,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> searchBooks(String text, Double rating) {
-        return bookRepository.searchBooks(text, rating);
+        return bookRepository.findAllByTitleContainingIgnoreCaseAndAverageRatingGreaterThanEqual(text, rating);
     }
 
     @Override
@@ -47,11 +47,16 @@ public class BookServiceImpl implements BookService {
         book.setAverageRating(averageRating);
         book.setAuthor(author);
 
-        return book;
+        return bookRepository.save(book);
     }
 
     @Override
     public void deleteById(Long id) {
         bookRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Book> findAllByAuthor_Id(Long authorId) {
+        return bookRepository.findAllByAuthor_Id(authorId);
     }
 }

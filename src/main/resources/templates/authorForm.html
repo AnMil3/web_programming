@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Author Form</title>
+</head>
+<body>
+
+<form th:action="@{${author == null ? '/authors/add' : '/authors/edit/' + author.id}}" method="post">
+    <label>Name</label>
+    <input type="text" name="name" th:value="${author != null} ? ${author.name} : ''" required>
+
+    <label>Surname</label>
+    <input type="text" name="surname" th:value="${author != null} ? ${author.surname} : ''" required>
+
+    <label>Country</label>
+    <input type="text" name="country" th:value="${author != null} ? ${author.country} : ''" required>
+
+    <label>Biography</label>
+    <textarea name="biography" rows="4" cols="40" th:text="${author != null} ? ${author.biography} : ''"></textarea>
+
+    <button type="submit">Save</button>
+</form>
+
+<a th:href="@{/authors}">Back to authors</a>
+
+</body>
+</html>

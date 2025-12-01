@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class InMemoryBookRepository implements BookRepository {
+public class InMemoryBookRepository implements BookRepositoryOld {
 
     @Override
     public List<Book> findAll() {
