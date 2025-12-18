@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8">
     <title>Book Reservation - Welcome and choose a Book</title>
@@ -64,16 +64,20 @@
             <span th:text="${book.author.name + ' ' + book.author.surname}">Author</span>
         </div>
 
-        <a th:href="@{/books/book-form/{id}(id=${book.id})}">
-            <button type="button">Edit</button>
-        </a>
+        <span sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{/books/book-form/{id}(id=${book.id})}">
+                <button type="button">Edit</button>
+            </a>
 
-        <form th:action="@{/books/delete/{id}(id=${book.id})}" method="post" style="display:inline;">
-            <button type="submit" onclick="return confirm('Delete this book?');">Delete</button>
-        </form>
+            <form th:action="@{/books/delete/{id}(id=${book.id})}" method="post" style="display:inline;">
+                <button type="submit" onclick="return confirm('Delete this book?');">Delete</button>
+            </form>
+        </span>
     </div>
 
-    <a th:href="@{/books/book-form}">Add new book</a>
+    <span sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/books/book-form}">Add new book</a>
+    </span>
 
     <br/>
     <a th:href="@{/authors}">Manage authors</a>
